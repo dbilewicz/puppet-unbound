@@ -14,7 +14,7 @@
 #
 define unbound::auth (
   Variant[Array[Unbound::Address], Unbound::Address] $address,
-  $zone                                   = $name,
+  $zonefile = $name,
   # lint:endignore
   Optional[Stdlib::Unixpath]                         $config_file = undef,
 ) {
