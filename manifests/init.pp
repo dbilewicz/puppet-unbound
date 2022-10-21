@@ -135,7 +135,7 @@ class unbound (
   Optional[Integer]                             $key_cache_slabs                 = undef,
   Optional[Unbound::Size]                       $neg_cache_size                  = undef,
   Boolean                                       $unblock_lan_zones               = false,
-  Boolean                                       $insecure_lan_zones              = false,  # version 1.5.8 
+  Boolean                                       $insecure_lan_zones              = false,  # version 1.5.8
   Unbound::Local_zone                           $local_zone                      = {},
   Array[String[1]]                              $local_data                      = [],
   Array[String[1]]                              $local_data_ptr                  = [],
@@ -155,6 +155,7 @@ class unbound (
   Optional[Integer[1]]                          $fast_server_num                 = undef,  # version 1.8.2
   Hash                                          $forward                         = {},
   Hash                                          $stub                            = {},
+  Hash                                          $auth                            = {},
   Hash                                          $record                          = {},
   Array                                         $access                          = ['::1', '127.0.0.1'],
   String[1]                                     $confdir                         = '/etc/unbound',
@@ -356,6 +357,11 @@ class unbound (
     }
   }
 
+  $auth.each |$title, $config| {
+    unbound::auth { $title:
+      * => $config,
+    }
+  }
   $record.each |$title, $config| {
     unbound::record { $title:
       * => $config,

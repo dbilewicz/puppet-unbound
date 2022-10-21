@@ -835,6 +835,20 @@ describe 'unbound' do
         end
       end
 
+      context 'auth passed to class' do
+        let(:params) do
+          {
+            auth: { 'example-auth.com' => { 'address' => ['10.0.0.1', '10.0.0.2'], 'zonefile' => '/var/lib/unbound/example-auth.com.zone' } }
+          }
+        end
+
+        it do
+          expect(subject).to contain_concat__fragment('unbound-auth-example-auth.com').with_content(
+            %r{^auth-zone:\n  name: "example-auth.com"\n  zonefile: "/var/lib/unbound/example-auth.com.zone"\n  master: 10.0.0.1\n  master: 10.0.0.2}
+          )
+        end
+      end
+
       context 'forward passed to class' do
         let(:params) do
           {

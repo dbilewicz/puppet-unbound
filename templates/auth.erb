@@ -1,0 +1,7 @@
+auth-zone:
+  name: "<%= @name %>"
+  zonefile: "<%= @zonefile %>"
+<% [@address].flatten.each do |addr| -%>
+  master: <%= addr %>
+<% end -%>
+
